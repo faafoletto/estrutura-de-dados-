@@ -1,47 +1,26 @@
 #include <stdio.h>
 #include <math.h>
 
-#define  TAM_MAX 10
-
-
 int main() {
-    int n;
-    float num;
-    float soma=0, media=0;
+    int N;
     
-    float vetor[TAM_MAX];
-
-    printf("Quantos números em sua série? ");
-    scanf("%d", &n);
-
-    if( n > TAM_MAX ){
-        printf("O número máximo de elementos é %d\n", TAM_MAX);
-        return 0;
+    printf("Quantos números na sua série (N): ");
+    scanf("%d", &N);
+    
+    if (N <= 0) {
+        printf("A quantidade de números deve ser maior que zero.\n");
+        return 1;
     }
-    
-    printf("Entrando %d valores:\n", n);
-    for( int conta=0; conta<n ; conta++) { 
-        printf("%d > ", conta+1);
-        scanf("%f", &num);
-        vetor[conta] = num;
-        soma = soma + num;
-    }
-    printf("A soma total é %f\n", soma);
-    media = soma/n;
-    printf("A média aritimética é %.2f \n\n", media);
-    
-    // calculando desvio-padrão
-    soma=0;
-    for( int i=0; i<n; i++ ){
-           soma += (vetor[i]-media)*(vetor[i]-media);
-    }
-    printf("O desvio padrão populacional é %.2f\n", sqrt( soma / n ) );
-    printf("O desvio padrão amostral é %.2f\n\n", sqrt( soma / (n-1) ) );
 
-    return 0;
-    
-    
-}
+    double numeros[N];
+    double soma = 0.0;
+
+    printf("Entre com os %d números:\n", N);
+    for (int i = 0; i < N; i++) {
+        scanf("%lf", &numeros[i]);
+        soma += numeros[i];
+    }
+
     double maximo = numeros[0];
     double minimo = numeros[0];
     for (int i = 1; i < N; i++) {
@@ -53,6 +32,15 @@ int main() {
         }
     }
 
+    double media = soma / N;
+
+    for (int i = 0; i < N - 1; i++) {
+        for (int j = i + 1; j < N; j++) {
+            if (numeros[i] > numeros[j]) {
+                double temp = numeros[i];
+                numeros[i] = numeros[j];
+                numeros[j] = temp;
+            }
         }
     }
 
@@ -71,8 +59,9 @@ int main() {
 
     printf("Máximo: %.2lf\n", maximo);
     printf("Mínimo: %.2lf\n", minimo);
+    printf("Média: %.2lf\n", media);
     printf("Mediana: %.2lf\n", mediana);
+    printf("Desvio-Padrão (populacional): %.2lf\n", desvio_padrao);
+
     return 0;
 }
-
-
